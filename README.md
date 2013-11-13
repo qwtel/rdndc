@@ -11,22 +11,26 @@ rdndc for Java is an experiment in code redundancy, which allows you to write mu
 (and to some extent classes) that will be used based on some strategy. Redundant implementations of methods can be 
 invoked probabilistically or as a fall back if an exception gets thrown.
 
-Annotations are used to mark methods as similar or "redundant":
+### Example
 
-    Invoker invoker = new RandomInvoker(this); // choose strategy
+    Invoker invoker = new RandomInvoker(this); // different invokers use different strategies
 
     public String format(String digits) { // public stub
-        return (String) invoker.invoke("format", digits); // invoker chooses the actual implementation
+        return (String) invoker.invoke("format", digits); // the invoker chooses the implementation
     }
 
-    @rdndc("format") // mark the method as redundant
+    @rdndc("format") // mark method as redundant
     private String librarianFormat(String digits) { // private implementation
         return String.format("%05d", Integer.parseInt(digits));
     }
 
-    @rdndc("format") // mark the method as redundant
+    @rdndc("format") // mark method as redundant
     private String functionalFormat(String digits) { // another implementation
         if (digits.length() >= 5) return digits;
         else return functionalFormat('0' + digits);
     }
+    
+### Acknowledgements
+
+Inspired by and examples taken from [The Narcissism of Small Code Differences](http://raganwald.com/2008/05/narcissism-of-small-code-differences.html).
 
