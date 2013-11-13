@@ -1,14 +1,22 @@
-package com.tumblr.cell303.rdndnc.method;
+package com.tumblr.cell303.rdndc.invoker;
 
 import java.util.List;
 
 class Signature {
-    public String name;
-    public List<Class> argTypes;
+    private String name;
+    private List<Class> argTypes;
 
     public Signature(String name, List<Class> argTypes) {
         this.name = name;
         this.argTypes = argTypes;
+    }
+
+    public List<Class> getArgTypes() {
+        return argTypes;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

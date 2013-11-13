@@ -1,17 +1,17 @@
-package com.tumblr.cell303.rdndnc.example
+package com.tumblr.cell303.rdndc.example
 
 import scala.annotation.tailrec
-import com.tumblr.cell303.rdndnc.method.{rdndnc, RandomInvoker}
+import com.tumblr.cell303.rdndc.invoker.{rdndc, RandomInvoker}
 
-object CodeRedundancyExample {
-
-  val randomInvoker = new RandomInvoker(this)
+object InvokerExample {
 
   def main(args: Array[String]) = {
     for (i <- 1 to 100) {
       println(format("123"))
     }
   }
+
+  val invoker = new RandomInvoker(this)
 
   /**
    * Formats a zip code to be 5 digits long
@@ -20,16 +20,16 @@ object CodeRedundancyExample {
    * @return A 5 digit zip code prepended with 0s if necessary
    */
   def format(digits: String): String = {
-    randomInvoker.apply("format", digits).asInstanceOf[String]
+    invoker.invoke("format", digits).asInstanceOf[String]
   }
 
-  @rdndnc("format")
+  @rdndc("format")
   def formatAgnostic(digits: String) = digits.size match {
     case 4 => "0" + digits
     case 3 => "00" + digits
   }
 
-  @rdndnc("format")
+  @rdndc("format")
   def formatAscetic(digits: String) = {
     @tailrec
     def helper(s: List[Char]): String =  {
@@ -39,12 +39,12 @@ object CodeRedundancyExample {
     helper(digits.toList)
   }
 
-  @rdndnc("format")
+  @rdndc("format")
   def formatLibrarian(digits: String) = "%05d".format(digits.toInt)
 
-  @rdndnc("format")
+  @rdndc("format")
   def formatWTF(digits: String) = BaseZipCodeDigits(digits).toFormattedString
 
-  @rdndnc("format")
+  @rdndc("format")
   def faultyImplementation(digits: String) = throw new RuntimeException()
 }

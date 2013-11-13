@@ -1,4 +1,4 @@
-package com.tumblr.cell303.rdndnc.example
+package com.tumblr.cell303.rdndc.example
 
 trait BaseZipCodeDigits {
   def toFormattedString: String
