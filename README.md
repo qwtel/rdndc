@@ -13,23 +13,25 @@ invoked probabilistically or as a fall back if an exception gets thrown.
 
 ### Example
 
-    Invoker invoker = new RandomInvoker(this); // different invokers use different strategies
+~~~java
+Invoker invoker = new RandomInvoker(this); // different invokers use different strategies
 
-    public String format(String digits) { // public stub
-        return (String) invoker.invoke("format", digits); // the invoker chooses the implementation
-    }
+public String format(String digits) { // public stub
+    return (String) invoker.invoke("format", digits); // the invoker chooses the implementation
+}
 
-    @rdndc("format") // mark method as redundant
-    private String librarianFormat(String digits) { // private implementation
-        return String.format("%05d", Integer.parseInt(digits));
-    }
+@rdndc("format") // mark method as redundant
+private String librarianFormat(String digits) { // private implementation
+    return String.format("%05d", Integer.parseInt(digits));
+}
 
-    @rdndc("format") // mark method as redundant
-    private String functionalFormat(String digits) { // another implementation
-        if (digits.length() >= 5) return digits;
-        else return functionalFormat('0' + digits);
-    }
-    
+@rdndc("format") // mark method as redundant
+private String functionalFormat(String digits) { // another implementation
+    if (digits.length() >= 5) return digits;
+    else return functionalFormat('0' + digits);
+}
+~~~
+
 ### Acknowledgements
 
 Inspired by and examples taken from [The Narcissism of Small Code Differences](http://raganwald.com/2008/05/narcissism-of-small-code-differences.html).
